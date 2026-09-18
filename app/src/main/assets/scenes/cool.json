@@ -1,0 +1,16 @@
+{
+  "id": "cool",
+  "name": "พื้นเทา · ฉากสาธิต",
+  "category": "plain",
+  "image": "cool.png",
+  "paperPlacement": {
+    "centerX": 0.5,
+    "centerY": 0.5,
+    "widthMin": 0.32,
+    "widthMax": 0.4,
+    "rotationMin": -3,
+    "rotationMax": 3,
+    "offsetX": 0.03,
+    "offsetY": 0.03
+  }
+}
