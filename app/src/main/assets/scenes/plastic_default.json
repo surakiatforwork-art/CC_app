@@ -1,0 +1,16 @@
+{
+  "id": "plastic_default",
+  "name": "พลาสติกขุ่น",
+  "category": "plastic",
+  "image": "plastic_default.png",
+  "paperPlacement": {
+    "centerX": 0.50, "centerY": 0.50,
+    "widthMin": 0.32, "widthMax": 0.40,
+    "rotationMin": -2.5, "rotationMax": 2.5,
+    "offsetX": 0.025, "offsetY": 0.025
+  },
+  "effects": {
+    "brightnessMatch": true, "whiteBalanceMatch": true,
+    "shadow": false, "matchStrength": 0.42
+  }
+}

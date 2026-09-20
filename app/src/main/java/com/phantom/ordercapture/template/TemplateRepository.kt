@@ -25,7 +25,15 @@ class TemplateRepository(private val context: Context) {
         fun f(key:String,default:Float)=p.optDouble(key,default.toDouble()).toFloat()
         val placement=Placement(f("centerX",.5f),f("centerY",.5f),f("widthMin",.28f),f("widthMax",.36f),f("rotationMin",-3f),f("rotationMax",3f),f("offsetX",.03f),f("offsetY",.03f))
         require(placement.widthMin>0 && placement.widthMax>=placement.widthMin)
-        return Scene(json.getString("id"),json.optString("name",json.getString("id")),json.getString("category"),json.getString("image"),placement,local)
+        val e=json.optJSONObject("effects") ?: JSONObject()
+        fun enabled(key:String, default:Boolean)=e.optBoolean(key,default)
+        val effects=SceneEffects(
+            matchLighting=enabled("brightnessMatch",true),
+            matchWhiteBalance=enabled("whiteBalanceMatch",true),
+            contactShadow=enabled("shadow",true),
+            strength=e.optDouble("matchStrength",.55).toFloat().coerceIn(0f,1f)
+        )
+        return Scene(json.getString("id"),json.optString("name",json.getString("id")),json.getString("category"),json.getString("image"),placement,effects,local)
     }
     fun load(scene: Scene, preview: Boolean=false): Bitmap {
         fun stream()=if(scene.local) File(directory,scene.image).inputStream() else context.assets.open("scenes/${scene.image}")

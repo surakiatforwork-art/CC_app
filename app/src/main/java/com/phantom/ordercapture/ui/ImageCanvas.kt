@@ -20,7 +20,7 @@ import com.phantom.ordercapture.renderer.SceneRenderer
 import kotlin.math.hypot
 
 @Composable
-fun ImageCanvas(background: Bitmap, document: Bitmap?=null, quad: Quad?=null, handles:Boolean=false, candidates:List<Quad> = emptyList(), onQuad: (Quad)->Unit={}, modifier:Modifier=Modifier) {
+fun ImageCanvas(background: Bitmap, document: Bitmap?=null, quad: Quad?=null, handles:Boolean=false, candidates:List<Quad> = emptyList(), effects:SceneEffects=SceneEffects(), onQuad: (Quad)->Unit={}, modifier:Modifier=Modifier) {
     val current by rememberUpdatedState(quad); val onChange by rememberUpdatedState(onQuad)
     var dimensions by remember{mutableStateOf(IntSize.Zero)}
     val aspect=background.width.toFloat()/background.height
@@ -53,7 +53,7 @@ fun ImageCanvas(background: Bitmap, document: Bitmap?=null, quad: Quad?=null, ha
         }
         Canvas(Modifier.width(width).height(height).then(touch)) {
             drawImage(background.asImageBitmap(),dstSize=IntSize(size.width.toInt(),size.height.toInt()))
-            if(document!=null && quad!=null) drawContext.canvas.nativeCanvas.let { SceneRenderer.drawDocument(it,document,quad,size.width,size.height) }
+            if(document!=null && quad!=null) drawContext.canvas.nativeCanvas.let { SceneRenderer.drawDocument(it,document,quad,size.width,size.height,background,effects) }
             fun outline(q:Quad,color:Color,stroke:Float) {
                 val path=Path().apply { q.points.forEachIndexed { i,p -> if(i==0) moveTo(p.x*size.width,p.y*size.height) else lineTo(p.x*size.width,p.y*size.height) }; close() }
                 drawPath(path,color,style=Stroke(stroke))

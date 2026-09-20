@@ -29,6 +29,7 @@ class EditorViewModel(app: Application): AndroidViewModel(app) {
     var scene by mutableStateOf<Scene?>(null); private set
     var category by mutableStateOf("all")
     var advanced by mutableStateOf(false)
+    var effects by mutableStateOf(com.phantom.ordercapture.model.SceneEffects())
     var png by mutableStateOf(false)
     var quality by mutableStateOf(95f)
     var saved by mutableStateOf<Uri?>(null); private set
@@ -74,12 +75,13 @@ class EditorViewModel(app: Application): AndroidViewModel(app) {
             if(scale==1f) d else Bitmap.createScaledBitmap(d,maxOf(1,(d.width*scale).toInt()),maxOf(1,(d.height*scale).toInt()),true)
         }
         if(scene==null) scene=scenes.firstOrNull()
+        effects=scene?.effects?:effects
         background=scene?.let{withContext(Dispatchers.IO){templates.load(it,true)}}
         randomPosition(); page=Page.EDITOR
     }
     fun selectScene(value: Scene)=work {
         val bitmap=withContext(Dispatchers.IO){templates.load(value,true)}
-        background=bitmap; scene=value; randomPosition()
+        background=bitmap; scene=value; effects=value.effects; randomPosition()
     }
     fun randomScene() {
         val options=scenes.filter{category=="all" || it.category==category}
@@ -105,7 +107,7 @@ class EditorViewModel(app: Application): AndroidViewModel(app) {
         val s=checkNotNull(scene); val d=checkNotNull(document); val q=placement
         saved=withContext(Dispatchers.Default) {
             val bg=templates.load(s)
-            try { val output=SceneRenderer.render(bg,d,q); try { images.save(output,png,quality.toInt()) } finally { output.recycle() } }
+            try { val output=SceneRenderer.render(bg,d,q,effects); try { images.save(output,png,quality.toInt()) } finally { output.recycle() } }
             finally { bg.recycle() }
         }
         message="บันทึกแล้วใน Pictures/OrderSlipScene"

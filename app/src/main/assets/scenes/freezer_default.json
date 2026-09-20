@@ -1,0 +1,16 @@
+{
+  "id": "freezer_default",
+  "name": "ตู้แช่เครื่องดื่ม",
+  "category": "freezer",
+  "image": "freezer_default.png",
+  "paperPlacement": {
+    "centerX": 0.5, "centerY": 0.50,
+    "widthMin": 0.26, "widthMax": 0.33,
+    "rotationMin": -2.2, "rotationMax": 2.2,
+    "offsetX": 0.025, "offsetY": 0.025
+  },
+  "effects": {
+    "brightnessMatch": true, "whiteBalanceMatch": true,
+    "shadow": false, "matchStrength": 0.48
+  }
+}

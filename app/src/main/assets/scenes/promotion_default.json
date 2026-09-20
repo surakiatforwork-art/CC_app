@@ -1,0 +1,16 @@
+{
+  "id": "promotion_default",
+  "name": "ป้ายโปรโมชั่น",
+  "category": "promotion",
+  "image": "promotion_default.png",
+  "paperPlacement": {
+    "centerX": 0.50, "centerY": 0.50,
+    "widthMin": 0.30, "widthMax": 0.37,
+    "rotationMin": -2.0, "rotationMax": 2.0,
+    "offsetX": 0.02, "offsetY": 0.02
+  },
+  "effects": {
+    "brightnessMatch": true, "whiteBalanceMatch": true,
+    "shadow": true, "matchStrength": 0.44
+  }
+}

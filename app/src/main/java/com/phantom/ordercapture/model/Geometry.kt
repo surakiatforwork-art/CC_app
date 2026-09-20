@@ -22,7 +22,22 @@ data class Quad(val points: List<Pt>) {
     }
 }
 data class Placement(val centerX: Float=.5f, val centerY: Float=.5f, val widthMin: Float=.28f, val widthMax: Float=.36f, val rotationMin: Float=-3f, val rotationMax: Float=3f, val offsetX: Float=.03f, val offsetY: Float=.03f)
-data class Scene(val id: String, val name: String, val category: String, val image: String, val placement: Placement=Placement(), val local: Boolean=false)
+data class SceneEffects(
+    val matchLighting: Boolean = true,
+    val matchWhiteBalance: Boolean = true,
+    val contactShadow: Boolean = true,
+    val strength: Float = .55f
+)
+
+data class Scene(
+    val id: String,
+    val name: String,
+    val category: String,
+    val image: String,
+    val placement: Placement=Placement(),
+    val effects: SceneEffects=SceneEffects(),
+    val local: Boolean=false
+)
 object Geometry {
     fun randomPlacement(p: Placement, documentAspect: Float, sceneAspect: Float, random: Random = Random.Default): Quad {
         fun between(a: Float,b: Float) = a + random.nextFloat() * (b-a)

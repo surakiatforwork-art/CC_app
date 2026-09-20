@@ -26,13 +26,24 @@ class PipelineTest {
         val crop=cv.correct(source,candidates.first())
         assertTrue(crop.height>crop.width*3)
         val context=InstrumentationRegistry.getInstrumentation().targetContext
-        val repo=TemplateRepository(context); val scene=repo.list().first()
+        val repo=TemplateRepository(context)
+        val defaults=repo.list()
+        assertTrue("Six default scenes must be available without importing images",defaults.size>=6)
+        assertTrue(defaults.any { it.category=="freezer" })
+        assertTrue(defaults.any { it.category=="plastic" })
+        assertTrue(defaults.any { it.category=="promotion" })
+        for(default in defaults) {
+            val thumbnail=repo.load(default,true)
+            assertTrue(maxOf(thumbnail.width,thumbnail.height)<=1600)
+            thumbnail.recycle()
+        }
+        val scene=defaults.first()
         val preview=repo.load(scene,true)
         assertTrue(maxOf(preview.width,preview.height)<=1600)
         preview.recycle()
         val background=repo.load(scene)
         val q=Geometry.randomPlacement(scene.placement,crop.width.toFloat()/crop.height,background.width.toFloat()/background.height)
-        val output=SceneRenderer.render(background,crop,q)
+        val output=SceneRenderer.render(background,crop,q,scene.effects)
         assertEquals(1800,output.width); assertEquals(2400,output.height)
         val store=ImageStore(context)
         for(png in listOf(false,true)) {

@@ -76,7 +76,7 @@ fun OrderSlipApp(vm: EditorViewModel) {
                     }
                     Page.EDITOR -> Column(Modifier.fillMaxSize()) {
                         Header("จัดฉากใบฝากสั่ง","ขั้นตอน 2 / 3",goBack)
-                        vm.background?.let { bg -> ImageCanvas(bg,vm.documentPreview,vm.placement,vm.advanced,onQuad={vm.placement=it},modifier=Modifier.weight(1f).fillMaxWidth().padding(16.dp)) }
+                        vm.background?.let { bg -> ImageCanvas(bg,vm.documentPreview,vm.placement,vm.advanced,effects=vm.effects,onQuad={vm.placement=it},modifier=Modifier.weight(1f).fillMaxWidth().padding(16.dp)) }
                             ?: Box(Modifier.weight(1f).fillMaxWidth(),contentAlignment=Alignment.Center){Text("เพิ่มฉากหลังเพื่อเริ่มจัดวาง")}
                         Text(if(vm.advanced) "ลากมุมเพื่อปรับ perspective" else "ลากเพื่อเลื่อน • ใช้สองนิ้วย่อ ขยาย และหมุน",Modifier.align(Alignment.CenterHorizontally),fontSize=12.sp,color=colors.onSurfaceVariant)
                         Column(Modifier.heightIn(max=265.dp).verticalScroll(rememberScrollState()).padding(horizontal=16.dp),verticalArrangement=Arrangement.spacedBy(4.dp)) {
@@ -94,12 +94,27 @@ fun OrderSlipApp(vm: EditorViewModel) {
                                 Switch(checked=vm.advanced,onCheckedChange={vm.advanced=it})
                                 Text("  ปรับ perspective 4 มุม")
                             }
+                            HorizontalDivider()
+                            Text("ปรับให้เข้ากับฉาก",fontWeight=FontWeight.SemiBold)
+                            Row(verticalAlignment=Alignment.CenterVertically) {
+                                Switch(checked=vm.effects.matchLighting,onCheckedChange={vm.effects=vm.effects.copy(matchLighting=it)})
+                                Text("  ปรับความสว่าง")
+                                Spacer(Modifier.width(12.dp))
+                                Switch(checked=vm.effects.matchWhiteBalance,onCheckedChange={vm.effects=vm.effects.copy(matchWhiteBalance=it)})
+                                Text("  ปรับโทนสี")
+                            }
+                            Row(verticalAlignment=Alignment.CenterVertically) {
+                                Switch(checked=vm.effects.contactShadow,onCheckedChange={vm.effects=vm.effects.copy(contactShadow=it)})
+                                Text("  เงาสัมผัส")
+                            }
+                            Text("ระดับการปรับ ${(vm.effects.strength*100).toInt()}%")
+                            Slider(value=vm.effects.strength,onValueChange={vm.effects=vm.effects.copy(strength=it)},valueRange=0f..1f)
                         }
                         Button(onClick={vm.page=Page.EXPORT},enabled=vm.background!=null,modifier=Modifier.fillMaxWidth().padding(16.dp).height(52.dp)){Text("ดูตัวอย่างและบันทึก")}
                     }
                     Page.EXPORT -> Column(Modifier.fillMaxSize()) {
                         Header("บันทึกภาพ","ขั้นตอน 3 / 3",goBack)
-                        vm.background?.let{ImageCanvas(it,vm.documentPreview,vm.placement,modifier=Modifier.weight(1f).fillMaxWidth().padding(16.dp))}
+                        vm.background?.let{ImageCanvas(it,vm.documentPreview,vm.placement,effects=vm.effects,modifier=Modifier.weight(1f).fillMaxWidth().padding(16.dp))}
                         Column(Modifier.padding(20.dp),verticalArrangement=Arrangement.spacedBy(8.dp)) {
                             Text("ขนาดภาพตามฉากต้นฉบับ • ไม่มี timestamp",fontSize=13.sp,color=colors.onSurfaceVariant)
                             Row(horizontalArrangement=Arrangement.spacedBy(12.dp)) {

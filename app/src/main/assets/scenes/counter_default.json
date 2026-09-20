@@ -1,0 +1,16 @@
+{
+  "id": "counter_default",
+  "name": "เคาน์เตอร์หน้าร้าน",
+  "category": "plain",
+  "image": "counter_default.png",
+  "paperPlacement": {
+    "centerX": 0.50, "centerY": 0.50,
+    "widthMin": 0.32, "widthMax": 0.40,
+    "rotationMin": -2.0, "rotationMax": 2.0,
+    "offsetX": 0.03, "offsetY": 0.03
+  },
+  "effects": {
+    "brightnessMatch": true, "whiteBalanceMatch": true,
+    "shadow": true, "matchStrength": 0.55
+  }
+}

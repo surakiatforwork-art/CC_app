@@ -12,7 +12,7 @@ Source: ChatGPT conversation “ออกแบบแอปสแกนภาพ
 - Import local backgrounds (reference photos contain existing slips and timestamps; they are references, not clean scene assets).
 
 ## Follow-up
-- Brightness, blur, grain and contact shadow matching with independent toggles.
+- Blur and grain matching with independent toggles; brightness, white balance and contact-shadow matching are now available offline.
 - Visual template anchor/range setup, template pack import/export.
 - Process-death session recovery and large-image tiled processing.
 - Broader device, camera and reference-image detection validation.
